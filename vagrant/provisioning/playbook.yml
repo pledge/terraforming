@@ -13,5 +13,17 @@
         src: https://releases.hashicorp.com/terraform/0.11.1/terraform_0.11.1_linux_amd64.zip
         dest: /usr/local/bin
         remote_src: yes
+    - name: bash profile
+      copy:
+        src: .bash_profile
+        dest: /home/vagrant/.bash_profile
+        owner: vagrant
+        group: vagrant
+        mode: 0644
+    - name: git clone
+      git:
+        repo: https://github.com/pledge/terraforming.git
+        dest: /home/vagrant/projects/terraforming
+
   roles:
     - fubarhouse.golang
