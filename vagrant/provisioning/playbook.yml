@@ -1,0 +1,11 @@
+---
+- hosts: all
+  become: true
+  tasks:
+    - name: install packages
+      yum: pkg={{item}} state=latest
+      with_items:
+        - vim
+        - tree
+  roles:
+    - fubarhouse.golang
