@@ -1,9 +1,10 @@
-# Compiled files
+# Terraform
 *.tfstate
 *.tfstate.backup
-
-# Module directory
 .terraform/
 
 # Vagrant
 .vagrant
+
+# Ansible
+*.retry
