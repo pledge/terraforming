@@ -1,18 +1,25 @@
 ---
 - hosts: all
-  become: true
   tasks:
     - name: install packages
       yum: pkg={{item}} state=latest
       with_items:
+        - git
         - vim
         - tree
         - unzip
-    - name: download terraform
+      become: true
+    - name: download terraform suite
       unarchive:
-        src: https://releases.hashicorp.com/terraform/0.11.1/terraform_0.11.1_linux_amd64.zip
+        src: "{{item}}"
         dest: /usr/local/bin
         remote_src: yes
+      with_items:
+        - https://releases.hashicorp.com/vault/0.9.0/vault_0.9.0_linux_amd64.zip
+        - https://releases.hashicorp.com/terraform/0.11.1/terraform_0.11.1_linux_amd64.zip
+        - https://releases.hashicorp.com/consul/1.0.1/consul_1.0.1_linux_amd64.zip
+        - https://releases.hashicorp.com/packer/1.1.2/packer_1.1.2_linux_amd64.zip
+      become: true
     - name: bash profile
       copy:
         src: .bash_profile
@@ -25,5 +32,6 @@
         repo: https://github.com/pledge/terraforming.git
         dest: /home/vagrant/projects/terraforming
 
-  roles:
-    - fubarhouse.golang
+
+#  roles:
+#    - fubarhouse.golang
