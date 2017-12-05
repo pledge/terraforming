@@ -20,7 +20,5 @@ ansible-galaxy install -r requirements.yml
 
 ## Todo
 
-* Install Terraform
 * Install AWX
-* Change to Packer
 * Add go binaries to PATH
