@@ -1,0 +1,25 @@
+---
+- hosts: all
+  tasks:
+    - name: install packages
+      yum: pkg={{item}} state=latest
+      with_items:
+        - unzip
+      become: true
+    - name: download vault
+      unarchive:
+        src: "{{item}}"
+        dest: /usr/local/bin
+        remote_src: yes
+      with_items:
+        - https://releases.hashicorp.com/vault/0.9.0/vault_0.9.0_linux_amd64.zip
+      become: true
+    - name: vault config
+      copy:
+        src: vault.hcl
+        dest: /home/vagrant/vault.hcl
+        owner: vagrant
+        group: vagrant
+        mode: 0644
+    - name: start up consul
+      shell: nohup vault server -dev -config=/home/vagrant/vault.hcl &

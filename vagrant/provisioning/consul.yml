@@ -1,0 +1,18 @@
+---
+- hosts: all
+  tasks:
+    - name: install packages
+      yum: pkg={{item}} state=latest
+      with_items:
+        - unzip
+      become: true
+    - name: download consul
+      unarchive:
+        src: "{{item}}"
+        dest: /usr/local/bin
+        remote_src: yes
+      with_items:
+        - https://releases.hashicorp.com/consul/1.0.1/consul_1.0.1_linux_amd64.zip
+      become: true
+    - name: start up consul
+      shell: nohup consul agent -server -bootstrap-expect 1 -data-dir /tmp/consul -bind 172.28.128.4 -client 172.28.128.4 &
